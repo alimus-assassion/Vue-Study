@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<div>{{message}}</div>
+
+			<div v-once>{{message}}</div>
+			<ul>
+				<li v-for="movie in movies">{{movie}}</li>
+			</ul>
+
+			<div>
+				<p>计数器：{{sumCount}}</p>
+				<button @click="addSumCount">+</button>
+				<button @click="subSumCount">-</button>
+			</div>
+		</div>
+
+		<script src="../js/vue.js"></script>
+		<script>
+			const app = new Vue({
+				el: "#app",
+				data: {
+					message: "hellow vue",
+					movies: ['肖申克的救赎', '星际穿越', '大话西游', '变形金刚'],
+					sumCount: 0
+				},
+				methods: {
+					addSumCount: function() {
+						this.sumCount++;
+					},
+					subSumCount: function() {
+						this.sumCount--;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
