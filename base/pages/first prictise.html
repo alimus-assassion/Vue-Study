@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>第一次练习-粗略展示购物车</title>
+	</head>
+	<body>
+		<div id="app">
+			<div v-if="books.length">
+				<table border="1px solid #efefef" cellpadding="5px" cellspacing="0">
+					<thead :style="{'background-color': '#e5e5e5'}">
+						<th></th>
+						<th>书籍名称</th>
+						<th>出版日期</th>
+						<th>价格</th>
+						<th>购买数量</th>
+						<th>操作</th>
+					</thead>
+					<tbody>
+						<tr v-for="(book,index) in books" :key='book.id'>
+							<td>{{book.id}}</td>
+							<td>{{book.name}}</td>
+							<td>{{book.date}}</td>
+							<td>{{book.price | showPrice}}</td>
+							<td>
+								<button type="button" @click="descPrice(index)" :disabled="isShowBtn(book.num)">-</button>
+								<span>{{book.num}}</span>
+								<button type="button" @click="incrPrice(index)">+</button>
+							</td>
+							<td><button type="button" :style="{'cursor':'pointer'}" @click="removeBook(index)">移除</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<span>总价：￥{{totalPrice}}</span>
+			</div>
+			<div v-else>购物车为空</div>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script>
+			const app = new Vue ({
+				el: "#app",
+				data:{
+					books:[
+						{id:1, name:"《算数导论》" ,date:"2006-06" ,price:85, num:"1"},
+						{id:2, name:"《UNIX编程艺术》" ,date:"2006-02" ,price:59, num:"1"},
+						{id:3, name:"《编程机杼》" ,date:"2008-10" ,price:39, num:"1"},
+						{id:4, name:"《代码大全》" ,date:"2006-03" ,price:128, num:"1"}
+					]
+				},
+				methods: {
+					descPrice(index){
+						this.books[index].num --;
+					},
+					incrPrice(index){
+						this.books[index].num ++;
+					},
+					isShowBtn(num) {
+						return num < 2;
+					},
+					getPrice(price) {
+						return '￥' + price.toFixed(2);
+					},
+					removeBook(index) {
+						return this.books.splice(index,1);
+					}
+				},
+				computed:{
+					totalPrice() {
+						let totalPrice = 0;
+						for(let book of this.books) {
+							totalPrice += book.price * book.num;
+						};
+						return totalPrice.toFixed(2);
+					}
+				},
+				filters:{
+					showPrice(price) {
+						return '￥' + price.toFixed(2);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
