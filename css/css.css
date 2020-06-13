@@ -1,0 +1,12 @@
+.active {
+	color: red;
+	font-weight: 600;
+}
+
+hr {
+	border: 1px solid #ffaa00;
+}
+
+.header {
+	color: #f9a600;
+}

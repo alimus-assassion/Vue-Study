@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<link href="../../css/css.css" rel="stylesheet" />
+	<body>
+		<hr />
+		<div class="header">slot插槽</div>
+		<hr />
+		
+		<div id="app">
+			<cpn><button>按钮1</button></cpn>
+			<hr />
+			<cpn><span>哈哈哈</span></cpn>
+			<hr />
+			<cpn><span>丫丫丫</span></cpn>
+			<hr />
+			<cpn><button>按钮2</button></cpn>
+			<hr />
+			<cpn></cpn>
+		</div>
+		
+		<template id="cpn">
+			<div> 
+				<h5>子组件</h5>
+				<p>我是组件内容</p>
+				<!-- 插槽 -->
+				<slot><button>默认按钮</button></slot>
+			</div>
+		</template>
+		
+		<script src="../../js/vue.js"></script>
+		<script>
+			const app = new Vue({
+				el: '#app',
+				data: {
+					message: "hello world",
+				},
+				components: {
+					//子组件
+					cpn: {
+						template: '#cpn',
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

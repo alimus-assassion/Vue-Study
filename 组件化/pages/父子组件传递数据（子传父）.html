@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		.active {
+			color: red;
+			font-weight: 600;
+		}
+		hr {
+			border:1px solid #ffaa00;
+		}
+		.header {
+			color: #f9a600;
+			border-bottom: 1px dashed #8c8287;
+		}
+	</style>
+	<body>
+		<div id="app">
+			<!-- 父组件接收事件 -->
+			<cpn @item-click="cpnClick"></cpn>
+			
+			<hr>
+			<div class="header">
+				练习子组件计算结果传递给父组件
+			</div>
+			<cpn_prictise @num-desc="cpnNum" @num-incr="cpnNum"></cpn_prictise>
+			<span>点击结果：{{totalNum}}</span>
+		</div>
+		
+		<!-- 子组件 -->
+		<template id="cpn">
+			<div> 
+				<ul>
+					<li v-for="categorie in categories" @click="btnClick(categorie)">{{categorie.name}}</li>
+				</ul>
+			</div>
+		</template>
+		
+		<!-- 练习子组件 -->
+		<template id="cpn-prictise">
+			<div>
+					<button @click="descNum">-1</button>
+					<button @click="incrNum">+1</button>
+			</div>
+		</template>
+		
+		<script src="../js/vue.js"></script>
+		<script>
+			//子组件
+			const cpn = {
+				template: '#cpn',
+				data(){
+					return {
+						categories: [
+							{id:"a", name:"热门推荐"},
+							{id:"b", name:"手机数码"},
+							{id:"c", name:"家用家电"},
+							{id:"d", name:"电脑办公"}
+						]
+					}
+				},
+				methods: {
+					btnClick(item) {
+						// 发射事件
+						this.$emit("item-click",item)
+					}
+				}
+			};
+			
+			const cpn_prictise = {
+				template: "#cpn-prictise",
+				data() {
+					return {
+						counter: 0
+					}
+				},
+				methods: {
+					descNum() {
+						this.counter --;
+						this.$emit("num-desc",this.counter);
+					},
+					incrNum() {
+						this.counter ++;
+						this.$emit("num-incr",this.counter);
+					}
+				}
+			}
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					message: "hello world",
+					movies: ['霸王别姬','大话西游','星际穿越'],
+					totalNum: 0
+				},
+				methods:{
+					cpnClick(item) {
+						console.log(item)
+					},
+					cpnNum(counter) {
+						this.totalNum = counter
+					}
+				},
+				components: {
+					cpn: cpn,
+					cpn_prictise: cpn_prictise
+				}
+			});
+		</script>
+	</body>
+</html>
